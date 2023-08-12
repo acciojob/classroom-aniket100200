@@ -1,11 +1,10 @@
-package com.driver.Service;
+package com.driver;
 
-import com.driver.Models.Student;
-import com.driver.Models.Teacher;
-import com.driver.Repository.ClassRoomRepository;
+import com.driver.Student;
+import com.driver.Teacher;
+import com.driver.ClassRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,10 +74,13 @@ public class ClassRoomService
         Map<String,Teacher>teacherMap=classRoomRepository.getTeacherMap();
         if(!teacherMap.containsKey(name))return;
         teacherMap.remove(name);
+        Map<String,List<Student>>map=classRoomRepository.getTeacherStudent();
+        map.remove(name);
     }
 
     public void deleteAllTeachers()
     {
         classRoomRepository.setTeacherMap(new HashMap<>());
+        classRoomRepository.setTeacherStudent(new HashMap<>());
     }
 }

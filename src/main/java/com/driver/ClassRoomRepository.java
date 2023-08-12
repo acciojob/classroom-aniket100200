@@ -1,7 +1,7 @@
-package com.driver.Repository;
+package com.driver;
 
-import com.driver.Models.Student;
-import com.driver.Models.Teacher;
+import com.driver.Student;
+import com.driver.Teacher;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
