@@ -11,7 +11,7 @@ import java.util.Map;
 public class StudentService
 {
     @Autowired
-    private StudentRepository studentRepository =new StudentRepository();
+    private StudentRepository studentRepository=new StudentRepository();
 
     public void addStudent(Student student)
     {
