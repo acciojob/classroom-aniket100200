@@ -49,6 +49,7 @@ public class StudentService
     public List<String> getStudentsByTeacherName( String teacher)
     {
         Map<String, List<Student>>teacherStudentMap= studentRepository.getTeacherStudent();
+        if(!teacherStudentMap.containsKey(teacher))return new ArrayList<>();
        List<Student>list= teacherStudentMap.getOrDefault(teacher,new ArrayList<>());
        List<String>ans=new ArrayList<>();
        for(Student student:list)
@@ -62,9 +63,11 @@ public class StudentService
         Map<String, List<Student>>teacherStudentMap= studentRepository.getTeacherStudent();
 
         List<String>ans=new ArrayList<>();
-        for(List<Student>list:teacherStudentMap.values()){
-            for(Student student:list)ans.add(student.getName());
-        }
+       for (String key:teacherStudentMap.keySet()){
+           for(Student student:teacherStudentMap.getOrDefault(key,new ArrayList<>())){
+               ans.add(student.getName());
+           }
+       }
         return ans;
     }
 
