@@ -1,39 +1,35 @@
 package com.driver;
 
-import com.driver.Student;
-import com.driver.Teacher;
-import com.driver.ClassRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
-public class ClassRoomService
+public class StudentService
 {
     @Autowired
-    private ClassRoomRepository classRoomRepository=new ClassRoomRepository();
+    private StudentRepository studentRepository =new StudentRepository();
 
     public void addStudent(Student student)
     {
-        Map<String,Student>studentMap=classRoomRepository.getStudentMap();
+        Map<String,Student>studentMap= studentRepository.getStudentMap();
         studentMap.put(student.getName(),student);
     }
     public void addTeacher(Teacher teacher){
-        Map<String,Teacher>teacherMap=classRoomRepository.getTeacherMap();
+        Map<String,Teacher>teacherMap= studentRepository.getTeacherMap();
 
         teacherMap.put(teacher.getName(),teacher);
     }
 
     public void addStudentTeacherPair(String student,String teacher)
     {
-        Map<String,Student>studentMap=classRoomRepository.getStudentMap();
-        Map<String,Teacher>teacherMap=classRoomRepository.getTeacherMap();
+        Map<String,Student>studentMap= studentRepository.getStudentMap();
+        Map<String,Teacher>teacherMap= studentRepository.getTeacherMap();
         if(!studentMap.containsKey(student) || !teacherMap.containsKey(teacher))return;
-        Map<String, List<Student>>teacherStudentMap=classRoomRepository.getTeacherStudent();
+        Map<String, List<Student>>teacherStudentMap= studentRepository.getTeacherStudent();
         List<Student>list=teacherStudentMap.getOrDefault(teacher,new ArrayList<>());
         list.add(studentMap.get(student));
         teacherStudentMap.put(teacher,list);
@@ -42,17 +38,17 @@ public class ClassRoomService
     }
 
     public Student getStudentByName(String name){
-        Map<String,Student>map=classRoomRepository.getStudentMap();
+        Map<String,Student>map= studentRepository.getStudentMap();
         return map.get(name);
     }
 
     public Teacher getTeacherByName(String name){
-        Map<String,Teacher>teacherMap=classRoomRepository.getTeacherMap();
+        Map<String,Teacher>teacherMap= studentRepository.getTeacherMap();
         return teacherMap.get(name);
     }
     public List<String> getStudentsByTeacherName( String teacher)
     {
-        Map<String, List<Student>>teacherStudentMap=classRoomRepository.getTeacherStudent();
+        Map<String, List<Student>>teacherStudentMap= studentRepository.getTeacherStudent();
        List<Student>list= teacherStudentMap.getOrDefault(teacher,new ArrayList<>());
        List<String>ans=new ArrayList<>();
        for(Student student:list)
@@ -63,7 +59,7 @@ public class ClassRoomService
     }
     public List<String> getAllStudents()
     {
-        Map<String, List<Student>>teacherStudentMap=classRoomRepository.getTeacherStudent();
+        Map<String, List<Student>>teacherStudentMap= studentRepository.getTeacherStudent();
 
         List<String>ans=new ArrayList<>();
         for(List<Student>list:teacherStudentMap.values()){
@@ -74,13 +70,13 @@ public class ClassRoomService
 
     public void deleteTeacherByName(String name)
     {
-        Map<String,Teacher>teacherMap=classRoomRepository.getTeacherMap();
+        Map<String,Teacher>teacherMap= studentRepository.getTeacherMap();
         if(!teacherMap.containsKey(name))return;
         teacherMap.remove(name);
-        Map<String,List<Student>>map=classRoomRepository.getTeacherStudent();
+        Map<String,List<Student>>map= studentRepository.getTeacherStudent();
         List<Student>list=map.get(name);
         map.remove(name);
-        Map<String,Student>map1=classRoomRepository.getStudentMap();
+        Map<String,Student>map1= studentRepository.getStudentMap();
         for(Student student:list)
         {
             if(map1.containsKey(student.getName()))map1.remove(student.getName());
@@ -90,8 +86,10 @@ public class ClassRoomService
 
     public void deleteAllTeachers()
     {
-        classRoomRepository.setTeacherMap(new HashMap<>());
-        classRoomRepository.setTeacherStudent(new HashMap<>());
-        classRoomRepository.setStudentMap(new HashMap<>());
+        Map<String,Teacher>teacherMap= studentRepository.getTeacherMap();
+        for(String teacher:teacherMap.keySet())teacherMap.remove(teacher);
+
+        Map<String ,Student>studentMap= studentRepository.getStudentMap();
+        for(String st:studentMap.keySet())studentMap.remove(st);
     }
 }

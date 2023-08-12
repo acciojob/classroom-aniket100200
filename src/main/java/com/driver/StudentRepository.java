@@ -1,7 +1,5 @@
 package com.driver;
 
-import com.driver.Student;
-import com.driver.Teacher;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -9,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class ClassRoomRepository
+public class StudentRepository
 {
     private Map<String, Student> studentMap=new HashMap<>();
     private Map<String, Teacher>teacherMap=new HashMap<>();
