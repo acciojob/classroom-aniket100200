@@ -72,17 +72,26 @@ public class ClassRoomService
         return ans;
     }
 
-    public void deleteTeacherByName(String name){
+    public void deleteTeacherByName(String name)
+    {
         Map<String,Teacher>teacherMap=classRoomRepository.getTeacherMap();
         if(!teacherMap.containsKey(name))return;
         teacherMap.remove(name);
         Map<String,List<Student>>map=classRoomRepository.getTeacherStudent();
+        List<Student>list=map.get(name);
         map.remove(name);
+        Map<String,Student>map1=classRoomRepository.getStudentMap();
+        for(Student student:list)
+        {
+            if(map1.containsKey(student.getName()))map1.remove(student.getName());
+        }
+
     }
 
     public void deleteAllTeachers()
     {
         classRoomRepository.setTeacherMap(new HashMap<>());
         classRoomRepository.setTeacherStudent(new HashMap<>());
+        classRoomRepository.setStudentMap(new HashMap<>());
     }
 }
