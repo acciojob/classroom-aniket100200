@@ -37,6 +37,8 @@ public class ClassRoomService
         List<Student>list=teacherStudentMap.getOrDefault(teacher,new ArrayList<>());
         list.add(studentMap.get(student));
         teacherStudentMap.put(teacher,list);
+        Teacher teacher1= teacherMap.get(teacher);
+       teacher1.setNumberOfStudents(teacher1.getNumberOfStudents()+1);
     }
 
     public Student getStudentByName(String name){
