@@ -31,6 +31,7 @@ public class StudentService
         if(!studentMap.containsKey(student) || !teacherMap.containsKey(teacher))return;
         Map<String, List<Student>>teacherStudentMap= studentRepository.getTeacherStudent();
         List<Student>list=teacherStudentMap.getOrDefault(teacher,new ArrayList<>());
+        for(Student s:list)if(s.getName().equalsIgnoreCase(student))return;
         list.add(studentMap.get(student));
         teacherStudentMap.put(teacher,list);
         Teacher teacher1= teacherMap.get(teacher);
@@ -42,7 +43,8 @@ public class StudentService
         return map.get(name);
     }
 
-    public Teacher getTeacherByName(String name){
+    public Teacher getTeacherByName(String name)
+    {
         Map<String,Teacher>teacherMap= studentRepository.getTeacherMap();
         return teacherMap.get(name);
     }
